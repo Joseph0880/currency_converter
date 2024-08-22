@@ -1,8 +1,20 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class CurrencyConverterPage extends StatelessWidget {
+class CurrencyConverterPage extends StatefulWidget {
   const CurrencyConverterPage({super.key});
+
+  @override
+  State<CurrencyConverterPage> createState() => _CurrencyConverterPageState();
+}
+
+class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
+  double result = 0;
+  final TextEditingController textEditingController = TextEditingController();
+
+  void convert() {
+    result = double.parse(textEditingController.text) * 81;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,21 +27,29 @@ class CurrencyConverterPage extends StatelessWidget {
     );
 
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(114, 153, 177, 1),
+      backgroundColor: Colors.blueGrey,
+      appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text('Currency Converter',
+            style: TextStyle(color: Colors.white)),
+      ),
       body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            '0',
-            style: TextStyle(
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 255, 255, 255)),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
+          child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              ' INR ${ result !=0 ? result.toStringAsFixed(2) : result.toStringAsFixed(0)}',
+              style: const TextStyle(
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 255, 255, 255)),
+            ),
+            TextField(
+                controller: textEditingController,
                 style: const TextStyle(
                   color: Colors.black,
                 ),
@@ -46,31 +66,25 @@ class CurrencyConverterPage extends StatelessWidget {
                     enabledBorder: border),
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextButton(
-              onPressed: () {
-                if (kDebugMode) {
-                  print("button clicked");
-                }
-              },
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(Colors.black),
-                foregroundColor: WidgetStateProperty.all(Colors.white),
-                minimumSize: WidgetStateProperty.all(const Size(double.infinity, 50)),
-                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
+                )
+              ),
+              const SizedBox(height:10),
+            ElevatedButton(
+              onPressed: convert,
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.black,
+                foregroundColor: Colors.white,
+                minimumSize: const Size(double.infinity, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
               child: const Text('Convert'),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       )),
     );
   }
 }
+
